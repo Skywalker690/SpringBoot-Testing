@@ -1,6 +1,9 @@
 // File: StudentController.java
 package com.example.Restss.controller;
 
+import com.example.Restss.dto.StudentDto;
+import com.example.Restss.dto.StudentResponseDto;
+import com.example.Restss.model.School;
 import com.example.Restss.model.Student;
 import com.example.Restss.repository.StudentJpaRepository;
 import org.springframework.http.HttpStatus;
@@ -18,8 +21,33 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public Student post(@RequestBody  Student student){
-        return repository.save(student);
+    public StudentResponseDto post(@RequestBody StudentDto dto){
+        var student =toStudent(dto);
+        var SavedStudent = repository.save(student);
+        return tostudentResponseDto(SavedStudent);
+    }
+
+
+
+    private StudentResponseDto tostudentResponseDto(Student student){
+        return new StudentResponseDto(
+                student.getFirstname(),
+                student.getLastname(),
+                student.getEmail()
+        );
+    }
+
+    private Student toStudent(StudentDto dto){
+        var student = new Student();
+        student.setFirstname(dto.firstname());
+        student.setLastname(dto.lastname());
+        student.setEmail(dto.email());
+
+        var school = new School();
+        school.setId(dto.schoolId());
+        student.setSchool(school);
+
+        return student;
     }
 
     @GetMapping("/students")
