@@ -1,6 +1,6 @@
-// File: School.java
 package com.example.Restss.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,12 +19,13 @@ public class School {
     private String name;
 
     @OneToMany(mappedBy = "school")
-    @JsonManagedReference
-    List<Student> students;
+    @JsonManagedReference // Moved from Student to here
+    private List<Student> students;
 
     public School() {
     }
 
+    // Getters and Setters
     public List<Student> getStudents() {
         return students;
     }
@@ -41,11 +42,11 @@ public class School {
         this.name = name;
     }
 
-    public Integer getSchoolId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setSchoolId(Integer schoolId) {
-        this.id = schoolId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
