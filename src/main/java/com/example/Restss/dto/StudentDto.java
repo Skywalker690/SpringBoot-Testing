@@ -3,9 +3,9 @@ package com.example.Restss.dto;
 import jakarta.validation.constraints.NotNull;
 
 public record StudentDto(
-        @NotNull
+        @NotNull(message = "Firstname should not be empty")
         String firstname,
-        @NotNull
+        @NotNull(message = "Lastname should not be empty")
         String lastname,
         String email,
         Integer schoolId
